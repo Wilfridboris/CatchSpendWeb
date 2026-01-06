@@ -1,0 +1,40 @@
+# .NET build outputs
+bin/
+obj/
+build/
+publish/
+
+# IDE and editor files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Blazor specific
+*.styles.css.gz
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Debug
+*.log
+npm-debug.log*
+
+# Test results
+TestResults/
+coverage/
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb

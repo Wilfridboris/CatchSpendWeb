@@ -1,0 +1,42 @@
+@inherits LayoutComponentBase
+
+<div class="page-wrapper">
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="" class="nav-brand">
+                <span class="brand-icon">💸</span>
+                <span class="brand-text">CatchSpend</span>
+            </a>
+
+            <button class="nav-toggle" @onclick="ToggleMenu" aria-label="Toggle navigation">
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+
+            <div class="nav-menu @(isMenuOpen ? "open" : "")">
+                <ul class="nav-links">
+                    <li><a href="" class="nav-link">Home</a></li>
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="privacy" class="nav-link">Privacy</a></li>
+                    <li><a href="terms" class="nav-link">Terms</a></li>
+                    <li><a href="contact" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="#download" class="nav-cta">Download App</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        @Body
+    </main>
+</div>
+
+@code {
+    private bool isMenuOpen = false;
+
+    private void ToggleMenu()
+    {
+        isMenuOpen = !isMenuOpen;
+    }
+}
