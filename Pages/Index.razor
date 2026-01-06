@@ -882,15 +882,11 @@
         max-width: 300px;
     }
 
-    .footer-logo {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.75rem;
-        font-weight: 800;
+    .footer-logo-img {
+        height: 48px;
+        width: auto;
+        object-fit: contain;
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, white, var(--primary-light));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
     }
 
     .footer-tagline {
@@ -1366,7 +1362,7 @@
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="footer-logo">CatchSpend</div>
+                    <img src="images/catchspend-logo.png" alt="CatchSpend" class="footer-logo-img" />
                     <p class="footer-tagline">
                         Smart expense tracking that respects your privacy. Built for people who want to understand their money without the complexity.
                     </p>
