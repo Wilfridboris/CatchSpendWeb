@@ -1,5 +1,6 @@
 # Deploy Blazor WebAssembly to GitHub Pages
 # This workflow builds and deploys the CatchSpendWeb Blazor WASM app to GitHub Pages
+# Using official GitHub Pages actions for automatic Pages configuration
 
 name: Deploy CatchSpendWeb to GitHub Pages
 
@@ -13,7 +14,7 @@ on:
 
 # Sets permissions for GitHub token
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -23,14 +24,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  # Build job
+  build:
     runs-on: ubuntu-latest
-
-    # NOTE: No working-directory setting needed!
-    # This repo (CatchSpendWeb) IS the Blazor project - the .csproj is at the repo root.
-    # GitHub Actions checks out to: /home/runner/work/CatchSpendWeb/CatchSpendWeb/
-    # Adding working-directory: CatchSpendWeb would create an invalid path.
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,13 +59,22 @@ jobs:
       - name: Create 404.html for SPA routing
         run: cp build/wwwroot/index.html build/wwwroot/404.html
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./build/wwwroot
-          force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'Deploy CatchSpendWeb to GitHub Pages'
+          path: './build/wwwroot'
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
