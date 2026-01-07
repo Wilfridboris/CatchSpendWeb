@@ -4,12 +4,9 @@
 name: Deploy CatchSpendWeb to GitHub Pages
 
 on:
-  # Runs on pushes to main branch (only for CatchSpendWeb changes)
+  # Runs on pushes to main branch
   push:
     branches: ["main"]
-    paths:
-      - 'CatchSpendWeb/**'
-      - '.github/workflows/deploy-web.yml'
 
   # Allows manual trigger from Actions tab
   workflow_dispatch:
@@ -29,9 +26,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: CatchSpendWeb
+    # NOTE: No working-directory setting needed!
+    # This repo (CatchSpendWeb) IS the Blazor project - the .csproj is at the repo root.
+    # GitHub Actions checks out to: /home/runner/work/CatchSpendWeb/CatchSpendWeb/
+    # Adding working-directory: CatchSpendWeb would create an invalid path.
 
     steps:
       - name: Checkout repository
@@ -52,7 +50,7 @@ jobs:
         run: touch build/wwwroot/.nojekyll
 
       # CRITICAL: Update base href for GitHub Pages subpath
-      # Replace 'CatchSpendWeb' with your actual repository name if different
+      # Repository: CatchSpendWeb -> hosted at: https://wilfridboris.github.io/CatchSpendWeb/
       - name: Update base href for GitHub Pages
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
@@ -70,7 +68,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./CatchSpendWeb/build/wwwroot
+          publish_dir: ./build/wwwroot
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
